@@ -416,13 +416,7 @@ const EMPTY = () => ({ date: '-', recipients: [], releases: [], coverage: [], ad
 
 const DATA = {
   '아산상': {
-    2018: {
-      date: '-', recipients: [],
-      releases: [
-        { title: '제31회 아산상 보도결과', timing: 'same', date: '-', material: '보도자료+사진' },
-      ],
-      coverage: [], ads: [],
-    },
+    2018: EMPTY(),
     2017: {
       date: '-', recipients: [],
       releases: [
@@ -431,62 +425,105 @@ const DATA = {
       coverage: [], ads: [],
     },
     2016: {
-      date: '2016-11-28', recipients: [],
+      date: '2016-11-28',
+      recipients: [
+        { category: '아산상', name: '요셉의원', org: '사회복지법인 서울가톨릭사회복지회 부설', reason: '노숙인·행려자·쪽방촌 주민·외국인근로자 무료진료 자선의료기관' },
+        { category: '의료봉사상', name: '박종철', org: '-', reason: '-' },
+        { category: '사회봉사상', name: '한국SOS어린이마을', org: '-', reason: '-' },
+      ],
       releases: [
         { title: '제28회 아산상 시상식 보도결과', timing: 'after', date: '2016-11-28', material: '보도자료+사진' },
       ],
       coverage: [], ads: [],
     },
     2015: {
-      date: '-', recipients: [],
+      date: '2015-11-25',
+      recipients: [
+        { category: '아산상 (대상)', name: '강릉 갈바리의원', org: '천주교 마리아의 작은 자매회', reason: '아시아 최초 호스피스 병원으로 50년간 말기암 환자 임종 동행' },
+        { category: '의료봉사상', name: '유덕종', org: '우간다 마케레레대학교 의과대학 명예교수', reason: '23년간 우간다에서 의료환경 개선, 제자 2,000여 명 양성' },
+        { category: '사회봉사상', name: '한국생명의전화', org: '-', reason: '39년간 139만여 회 전화상담, 자살예방 및 생명존중 문화 확산' },
+        { category: '특별상', name: 'KBS 제3라디오', org: 'KBS', reason: '20년간 장애인·다문화가정·노인 등 소외계층 전문 방송' },
+      ],
       releases: [
         { title: '제27회 아산상 수상자 발표', timing: 'before', date: '2015-11-18', material: '보도자료' },
-        { title: '제27회 아산상 시상식 보도결과', timing: 'after', date: '2015-11-26', material: '보도자료+사진' },
+        { title: '제27회 아산상 시상식 개최', timing: 'after', date: '2015-11-26', material: '보도자료+사진' },
       ],
       coverage: [], ads: [],
     },
     2014: {
-      date: '-', recipients: [],
-      releases: [
-        { title: '제26회 아산상 수상자 발표 지면기사', timing: 'before', date: '-', material: '보도자료' },
-        { title: '제26회 아산상 시상식 개최 지면기사', timing: 'after', date: '-', material: '보도자료+사진' },
+      date: '-',
+      recipients: [
+        { category: '아산상 (대상)', name: '안광훈', org: '삼양주민연대 대표', reason: '-' },
       ],
-      coverage: [], ads: [],
+      releases: [
+        { title: '제26회 아산상 수상자 발표', timing: 'before', date: '-', material: '보도자료' },
+        { title: '제26회 아산상 시상식 개최', timing: 'after', date: '-', material: '보도자료+사진' },
+      ],
+      coverage: ['조선일보', '중앙일보', '한겨레신문', '경향신문', '국민일보', '서울신문', '세계일보', '한국경제', '서울경제', '파이낸셜뉴스', '문화일보', '내일신문'],
+      ads: [],
     },
   },
   '아산의학상': {
     2018: {
-      date: '2018-03-22', recipients: [],
+      date: '2018-03-21',
+      recipients: [
+        { category: '기초의학부문', name: '김은준', org: 'KAIST 생명과학과 석좌교수 (기초과학연구원 시냅스뇌질환연구단장)', reason: '신경시냅스 형성·작동 원리 세계 최초 규명, ADHD 및 자폐증 원인 발견' },
+        { category: '임상의학부문', name: '방영주', org: '서울의대 종양내과 교수', reason: '위암 표적치료제 개발 및 임상 적용으로 위암 치료 패러다임 변화' },
+        { category: '젊은의학자', name: '김호민', org: 'KAIST 의과학대학원 교수', reason: '-' },
+        { category: '젊은의학자', name: '김범경', org: '연세의대 소화기내과 교수', reason: '-' },
+      ],
       releases: [
         { title: '제11회 아산의학상 수상자 선정', timing: 'before', date: '2018-01-11', material: '보도자료' },
-        { title: '제11회 아산의학상 시상식 개최', timing: 'same', date: '2018-03-22', material: '보도자료+사진' },
+        { title: '제11회 아산의학상 시상식 개최', timing: 'same', date: '2018-03-21', material: '보도자료+사진' },
       ],
-      coverage: [], ads: [],
+      coverage: ['조선일보', '중앙일보', '동아일보', '매일경제', '한국경제', '문화일보', '헤럴드경제', '내일신문', '아시아경제'],
+      ads: [],
     },
     2017: {
-      date: '2017-03-22', recipients: [],
-      releases: [
-        { title: '제10회 아산의학상 지면기사', timing: 'same', date: '2017-03-22', material: '보도자료+사진' },
+      date: '2017-03-21',
+      recipients: [
+        { category: '기초의학부문', name: '김진수', org: '기초과학연구원 유전체교정연구단 단장 (서울대 화학과 겸임교수)', reason: '3세대 유전자가위 크리스퍼-카스9 정확성 규명 및 개선, cpf1 유전자가위 최초 검증' },
+        { category: '임상의학부문', name: '한덕종', org: '울산의대 명예교수', reason: '신장·췌장이식 국내 최다 건수 달성' },
+        { category: '젊은의학자', name: '최정균', org: 'KAIST 바이오및뇌공학과 교수', reason: '-' },
+        { category: '젊은의학자', name: '안정민', org: '울산의대 심장내과 교수', reason: '-' },
       ],
-      coverage: [], ads: [],
+      releases: [
+        { title: '제10회 아산의학상 수상자 선정발표', timing: 'before', date: '2017-03-14', material: '보도자료' },
+        { title: '제10회 아산의학상 시상식 개최', timing: 'same', date: '2017-03-22', material: '보도자료+사진' },
+      ],
+      coverage: ['조선일보', '중앙일보', '동아일보', '매일경제', '한국경제', '문화일보', '한국일보', '한겨레신문', '경향신문', '국민일보', '세계일보', '내일신문', '서울신문', '서울경제'],
+      ads: [],
     },
     2016: {
-      date: '-', recipients: [],
+      date: '2016-03-21',
+      recipients: [
+        { category: '기초의학부문', name: '오병하', org: 'KAIST 생명과학과 교수', reason: 'DNA 염색체 응축 시 작용하는 단백질 구조와 원리 규명, 항암제 개발 가능성 제시' },
+        { category: '임상의학부문', name: '로베르토 로메로', org: '미국 국립보건원(NIH) 주산의학연구소 교수', reason: '조산 및 선천성 기형 원인 규명 (첫 해외 수상자)' },
+        { category: '젊은의학자', name: '조승우', org: '연세대 생명공학과 교수', reason: '-' },
+        { category: '젊은의학자', name: '김준범', org: '울산의대 흉부외과 교수', reason: '-' },
+      ],
       releases: [
         { title: '제9회 아산의학상 수상자 발표 (석간)', timing: 'before', date: '2016-03-17', material: '보도자료' },
-        { title: '제9회 아산의학상 수상자 발표 (조간)', timing: 'before', date: '2016-03-24', material: '보도자료' },
-        { title: '제9회 아산의학상 시상식 개최 지면기사', timing: 'after', date: '-', material: '보도자료+사진' },
+        { title: '제9회 아산의학상 수상자 발표 (조간)', timing: 'before', date: '2016-03-14', material: '보도자료' },
+        { title: '제9회 아산의학상 시상식 개최', timing: 'after', date: '2016-03-24', material: '보도자료+사진' },
         { title: '제9회 아산의학상 인터뷰기사 (로메로)', timing: 'after', date: '-', material: '인터뷰' },
       ],
       coverage: [], ads: [],
     },
     2015: {
-      date: '2015-03-20', recipients: [],
+      date: '2015-03-19',
+      recipients: [
+        { category: '기초의학부문', name: '박종완', org: '서울대 의대 교수', reason: '산소 부족 환경에서 세포 반응 연구로 암 성장 억제 인자 규명' },
+        { category: '임상의학부문', name: '이명식', org: '성균관대 의대 교수', reason: '세포 자가포식 연구로 당뇨병 원인 규명 및 근본적 치료법 개발' },
+        { category: '젊은의학자', name: '김형범', org: '연세대 의대 교수', reason: '기존 유전자가위 부작용 줄인 RNA 유전자가위 개발' },
+        { category: '젊은의학자', name: '박정열', org: '서울아산병원 교수', reason: '복강경 수술 우수성 입증으로 부인암 치료 패러다임 변화' },
+      ],
       releases: [
         { title: '제8회 아산의학상 수상자 발표', timing: 'before', date: '2015-03-10', material: '보도자료' },
         { title: '제8회 아산의학상 시상식 개최', timing: 'same', date: '2015-03-20', material: '보도자료+사진' },
       ],
-      coverage: [], ads: [],
+      coverage: ['조선일보', '조선비즈', '중앙일보', '동아일보', '매일경제', '한국경제', '경향신문', '한국일보', '한겨레', '국민일보', '세계일보', '서울신문', '문화일보', '내일신문'],
+      ads: [],
     },
     2014: EMPTY(),
   },
