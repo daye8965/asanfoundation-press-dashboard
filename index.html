@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>아산사회복지재단 보도결과 대시보드</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-secondary: #f5f5f4;
+    --bg-tertiary: #f0efea;
+    --text: #1a1a19;
+    --text-secondary: #5f5e5a;
+    --text-tertiary: #888780;
+    --border: rgba(0,0,0,0.12);
+    --border-md: rgba(0,0,0,0.22);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'SFMono-Regular', Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg-secondary: #242422;
+      --bg-tertiary: #2c2c2a;
+      --text: #f0efea;
+      --text-secondary: #b4b2a9;
+      --text-tertiary: #888780;
+      --border: rgba(255,255,255,0.12);
+      --border-md: rgba(255,255,255,0.22);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    background: var(--bg-tertiary);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  header {
+    background: var(--bg);
+    border-bottom: 0.5px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  header h1 { font-size: 17px; font-weight: 500; }
+  header .logo-area { display: flex; align-items: center; gap: 10px; }
+  header .logo-badge {
+    background: var(--bg-secondary);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .year-tabs { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .ytab {
+    padding: 4px 12px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border-md);
+    background: transparent;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-family: var(--font);
+    transition: background 0.15s;
+  }
+  .ytab:hover { background: var(--bg-secondary); }
+  .ytab.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .import-btn {
+    padding: 6px 14px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border-md);
+    background: transparent;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-family: var(--font);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.15s;
+  }
+  .import-btn:hover { background: var(--bg-secondary); }
+  .main { max-width: 960px; margin: 0 auto; padding: 24px 20px; }
+  .event-tabs {
+    display: flex;
+    gap: 0;
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 4px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+  .etab {
+    flex: 1;
+    min-width: 80px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: calc(var(--radius-lg) - 2px);
+    font-family: var(--font);
+    white-space: nowrap;
+    text-align: center;
+    transition: background 0.15s, color 0.15s;
+  }
+  .etab:hover { background: var(--bg-secondary); }
+  .etab.active { background: var(--bg-secondary); color: var(--text); font-weight: 500; border: 0.5px solid var(--border); }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+  }
+  .card .label { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+  .card .val { font-size: 24px; font-weight: 500; }
+  .card .val span { font-size: 14px; font-weight: 400; }
+  .card .sub { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+  .section { margin-bottom: 20px; }
+  .section-box {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 12px 16px;
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  .section-header i { font-size: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 0.5px solid var(--border);
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 12px;
+    background: var(--bg-secondary);
+  }
+  td {
+    padding: 10px 16px;
+    border-bottom: 0.5px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  tr:last-child td { border-bottom: none; }
+  .reason { font-size: 12px; color: var(--text-secondary); margin-top: 3px; line-height: 1.5; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: var(--radius-md);
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .badge-before { background: #E1F5EE; color: #0F6E56; }
+  .badge-same   { background: #E6F1FB; color: #185FA5; }
+  .badge-after  { background: #FAEEDA; color: #854F0B; }
+  .badge-award  { background: #EEEDFE; color: #3C3489; }
+  @media (prefers-color-scheme: dark) {
+    .badge-before { background: #085041; color: #9FE1CB; }
+    .badge-same   { background: #0C447C; color: #B5D4F4; }
+    .badge-after  { background: #633806; color: #FAC775; }
+    .badge-award  { background: #3C3489; color: #CECBF6; }
+  }
+  .media-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .media-col { padding: 14px 16px; }
+  .media-col:first-child { border-right: 0.5px solid var(--border); }
+  .media-col h3 {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .media-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 13px;
+  }
+  .media-item:last-of-type { border-bottom: none; }
+  .dot-on { width: 7px; height: 7px; border-radius: 50%; background: #1D9E75; flex-shrink: 0; }
+  .dot-ad { width: 7px; height: 7px; border-radius: 50%; background: #378ADD; flex-shrink: 0; }
+  .empty-row { padding: 20px 16px; font-size: 13px; color: var(--text-tertiary); text-align: center; }
+  .modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: var(--bg);
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border-md);
+    padding: 24px;
+    width: 600px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  }
+  .modal h2 { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+  .modal .modal-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.6; }
+  .format-hint {
+    background: var(--bg-secondary);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    white-space: pre;
+    overflow-x: auto;
+    line-height: 1.8;
+  }
+  .modal textarea {
+    width: 100%;
+    height: 180px;
+    font-size: 13px;
+    font-family: var(--font-mono);
+    padding: 12px;
+    border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    color: var(--text);
+    resize: vertical;
+    outline: none;
+  }
+  .modal textarea:focus { border-color: var(--text-secondary); }
+  .modal-actions { display: flex; gap: 8px; margin-top: 14px; justify-content: flex-end; }
+  .btn {
+    padding: 8px 18px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border-md);
+    font-size: 13px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font);
+    transition: background 0.15s;
+  }
+  .btn:hover { background: var(--bg-secondary); }
+  .btn-primary {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .msg {
+    font-size: 12px;
+    padding: 7px 10px;
+    border-radius: var(--radius-md);
+    margin-top: 10px;
+    display: none;
+  }
+  .msg.ok { background: #E1F5EE; color: #0F6E56; display: block; }
+  .msg.err { background: #FCEBEB; color: #A32D2D; display: block; }
+  .hint-toggle {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 8px;
+    font-family: var(--font);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .hint-toggle:hover { color: var(--text-secondary); }
+  .timing-legend {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--bg-secondary);
+  }
+  .timing-legend span { font-size: 11px; color: var(--text-tertiary); display: flex; align-items: center; gap: 5px; }
+  @media (max-width: 600px) {
+    .media-grid { grid-template-columns: 1fr; }
+    .media-col:first-child { border-right: none; border-bottom: 0.5px solid var(--border); }
+    header { padding: 10px 14px; }
+    .main { padding: 14px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-area">
+    <h1>아산사회복지재단 보도결과</h1>
+    <span class="logo-badge">홍보팀</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <div class="year-tabs" id="yearTabs"></div>
+    <button class="import-btn" onclick="openModal()">
+      <i class="ti ti-file-import" aria-hidden="true"></i> 데이터 입력
+    </button>
+  </div>
+</header>
+
+<div class="main">
+  <div class="event-tabs" id="eventTabs"></div>
+  <div id="content"></div>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2 id="modalTitle">데이터 붙여넣기</h2>
+    <p class="modal-desc" id="modalDesc"></p>
+    <button class="hint-toggle" id="hintToggle" onclick="toggleHint()">
+      <i class="ti ti-chevron-down" id="hintIcon" aria-hidden="true"></i> 입력 형식 보기
+    </button>
+    <div class="format-hint" id="fmtHint" style="display:none"></div>
+    <textarea id="pasteArea" placeholder="여기에 붙여넣기..."></textarea>
+    <div id="pasteMsg" class="msg"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">취소</button>
+      <button class="btn btn-primary" onclick="applyPaste()">
+        <i class="ti ti-check" aria-hidden="true"></i> 적용
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const YEARS = [2026, 2025, 2024, 2023, 2022];
+const EVENTS = ['아산상', '아산의학상', '장학증서수여식', '심포지엄', '기타'];
+const HAS_RECIPIENTS = ['아산상', '아산의학상'];
+
+const FORMATS = {
+  hasRecipients: `행사일: 2025-03-15
+
+[수상자]
+부문: 사회봉사부문
+이름: 홍길동
+소속: OO복지재단 대표
+수상이유: 30년간 저소득 가정 의료 지원 봉사 활동
+
+부문: 의료봉사부문
+이름: 김영희
+소속: OO병원 원장
+수상이유: 무의촌 순회진료 무료 수술 2,000건 시행
+
+[보도자료]
+제목: 수상자 발표 보도자료
+배포시점: 행사전
+날짜: 2025-03-10
+사용자료: 보도자료+사진
+
+제목: 시상식 현장 보도자료
+배포시점: 행사당일
+날짜: 2025-03-15
+사용자료: 보도자료+영상
+
+[보도매체]
+조선일보, 동아일보, 연합뉴스, KBS
+
+[광고매체]
+조선일보, 동아일보`,
+  noRecipients: `행사일: 2025-05-08
+
+[보도자료]
+제목: 2025년 장학증서수여식 보도자료
+배포시점: 행사당일
+날짜: 2025-05-08
+사용자료: 보도자료+사진
+
+[보도매체]
+연합뉴스, 뉴시스
+
+[광고매체]
+`
+};
+
+const EMPTY = () => ({ date: '-', recipients: [], releases: [], coverage: [], ads: [] });
+
+const DATA = {
+  '아산상': {
+    2026: EMPTY(),
+    2025: {
+      date: '2025-03-15',
+      recipients: [
+        { category: '사회봉사부문', name: '홍길동', org: 'OO복지재단 대표', reason: '30년간 저소득 가정 의료 지원 봉사 활동으로 지역사회 복지 향상에 헌신' },
+        { category: '의료봉사부문', name: '김영희', org: 'OO병원 원장', reason: '무의촌 순회진료 및 의료 취약계층 무료 수술 2,000여 건 시행' },
+      ],
+      releases: [
+        { title: '아산상 수상자 발표 보도자료', timing: 'before', date: '2025-03-10', material: '보도자료+사진' },
+        { title: '아산상 시상식 현장 보도자료', timing: 'same', date: '2025-03-15', material: '보도자료+영상' },
+      ],
+      coverage: ['조선일보', '동아일보', '중앙일보', '한겨레', 'KBS', 'MBC', '연합뉴스'],
+      ads: ['조선일보', '동아일보', '중앙일보'],
+    },
+    2024: {
+      date: '2024-03-20',
+      recipients: [
+        { category: '사회봉사부문', name: '이철수', org: 'OO사회복지관 관장', reason: '노인 고독사 예방 프로그램 전국 확산에 기여' },
+      ],
+      releases: [
+        { title: '아산상 수상자 발표 보도자료', timing: 'before', date: '2024-03-14', material: '보도자료' },
+        { title: '아산상 시상식 보도자료', timing: 'after', date: '2024-03-21', material: '보도자료+사진' },
+      ],
+      coverage: ['조선일보', '중앙일보', '한국경제', '연합뉴스', 'YTN'],
+      ads: ['조선일보', '중앙일보'],
+    },
+    2023: EMPTY(), 2022: EMPTY(),
+  },
+  '아산의학상': {
+    2026: EMPTY(),
+    2025: {
+      date: '2025-02-20',
+      recipients: [
+        { category: '기초의학부문', name: '정수민', org: '서울대 의대 교수', reason: '암 줄기세포 분화 억제 기전 규명으로 신규 표적 치료 가능성 제시' },
+        { category: '임상의학부문', name: '최재원', org: '연세대 세브란스 교수', reason: '소아 심장이식 수술 성공률 향상 프로토콜 개발 및 국제 표준화 주도' },
+      ],
+      releases: [
+        { title: '아산의학상 수상자 발표', timing: 'before', date: '2025-02-12', material: '보도자료' },
+        { title: '아산의학상 시상식 보도자료', timing: 'same', date: '2025-02-20', material: '보도자료+사진+영상' },
+      ],
+      coverage: ['조선일보', '동아일보', '의사신문', '청년의사', '메디컬타임즈', '연합뉴스'],
+      ads: ['의사신문', '청년의사', '메디컬타임즈'],
+    },
+    2024: EMPTY(), 2023: EMPTY(), 2022: EMPTY(),
+  },
+  '장학증서수여식': {
+    2026: EMPTY(),
+    2025: {
+      date: '2025-05-08', recipients: [],
+      releases: [{ title: '2025년 장학증서수여식 보도자료', timing: 'same', date: '2025-05-08', material: '보도자료+사진' }],
+      coverage: ['연합뉴스', '뉴시스', '교육부 뉴스레터'], ads: [],
+    },
+    2024: EMPTY(), 2023: EMPTY(), 2022: EMPTY(),
+  },
+  '심포지엄': {
+    2026: EMPTY(),
+    2025: {
+      date: '2025-10-22', recipients: [],
+      releases: [
+        { title: '2025 아산 심포지엄 사전 보도자료', timing: 'before', date: '2025-10-16', material: '보도자료' },
+        { title: '2025 아산 심포지엄 결과 보도자료', timing: 'after', date: '2025-10-23', material: '보도자료+사진' },
+      ],
+      coverage: ['매일경제', '한국경제', '조선일보', '연합뉴스'], ads: ['매일경제', '한국경제'],
+    },
+    2024: EMPTY(), 2023: EMPTY(), 2022: EMPTY(),
+  },
+  '기타': {
+    2026: EMPTY(), 2025: EMPTY(), 2024: EMPTY(), 2023: EMPTY(), 2022: EMPTY(),
+  }
+};
+
+let activeYear = 2025;
+let activeEvent = '아산상';
+let hintVisible = false;
+
+function timingBadge(t) {
+  if (t === 'before') return '<span class="badge badge-before">행사 전</span>';
+  if (t === 'same')   return '<span class="badge badge-same">행사 당일</span>';
+  if (t === 'after')  return '<span class="badge badge-after">다음날</span>';
+  return `<span class="badge badge-after">${t}</span>`;
+}
+
+function renderYearTabs() {
+  document.getElementById('yearTabs').innerHTML = YEARS.map(y =>
+    `<button class="ytab${y === activeYear ? ' active' : ''}" onclick="setYear(${y})">${y}년</button>`
+  ).join('');
+}
+
+function renderEventTabs() {
+  document.getElementById('eventTabs').innerHTML = EVENTS.map(e =>
+    `<button class="etab${e === activeEvent ? ' active' : ''}" onclick="setEvent('${encodeURIComponent(e)}')">${e}</button>`
+  ).join('');
+}
+
+function renderContent() {
+  const d = DATA[activeEvent]?.[activeYear];
+  const el = document.getElementById('content');
+  if (!d) { el.innerHTML = '<div class="empty-row">데이터 없음</div>'; return; }
+
+  const isAward = HAS_RECIPIENTS.includes(activeEvent);
+  const coverCnt = d.coverage.length;
+  const adCnt = d.ads.length;
+  const relCnt = d.releases.length;
+
+  let html = `<div class="cards">
+    <div class="card"><div class="label">행사일</div><div class="val" style="font-size:17px;padding-top:2px">${d.date}</div></div>
+    <div class="card"><div class="label">보도자료 배포</div><div class="val">${relCnt}<span>건</span></div></div>
+    <div class="card"><div class="label">보도 매체</div><div class="val">${coverCnt}<span>개</span></div></div>
+    <div class="card"><div class="label">광고 집행 매체</div><div class="val">${adCnt}<span>개</span></div></div>
+  </div>`;
+
+  if (isAward) {
+    html += `<div class="section"><div class="section-box">
+      <div class="section-header"><i class="ti ti-trophy" aria-hidden="true"></i> 수상자</div>`;
+    if (!d.recipients.length) {
+      html += `<div class="empty-row">수상자 정보 없음 — 상단 "데이터 입력"으로 추가하세요</div>`;
+    } else {
+      html += `<table><thead><tr>
+        <th style="width:20%">부문</th>
+        <th style="width:16%">수상자</th>
+        <th style="width:22%">소속</th>
+        <th>수상이유</th>
+      </tr></thead><tbody>`;
+      d.recipients.forEach(r => {
+        html += `<tr>
+          <td><span class="badge badge-award">${r.category}</span></td>
+          <td><strong>${r.name}</strong></td>
+          <td>${r.org}</td>
+          <td><span class="reason">${r.reason || '-'}</span></td>
+        </tr>`;
+      });
+      html += `</tbody></table>`;
+    }
+    html += `</div></div>`;
+  }
+
+  html += `<div class="section"><div class="section-box">
+    <div class="section-header"><i class="ti ti-file-text" aria-hidden="true"></i> 보도자료 배포 현황</div>
+    <div class="timing-legend">
+      <span><span class="badge badge-before">행사 전</span> 행사 전날 이전 배포</span>
+      <span><span class="badge badge-same">행사 당일</span> 당일 배포</span>
+      <span><span class="badge badge-after">다음날</span> 익일 배포</span>
+    </div>`;
+  if (!d.releases.length) {
+    html += `<div class="empty-row">배포 이력 없음</div>`;
+  } else {
+    html += `<table><thead><tr>
+      <th style="width:40%">제목</th>
+      <th style="width:16%">배포 시점</th>
+      <th style="width:18%">배포일</th>
+      <th>사용 자료</th>
+    </tr></thead><tbody>`;
+    d.releases.forEach(r => {
+      html += `<tr>
+        <td>${r.title}</td>
+        <td>${timingBadge(r.timing)}</td>
+        <td>${r.date}</td>
+        <td>${r.material}</td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+  html += `</div></div>`;
+
+  html += `<div class="section"><div class="section-box">
+    <div class="section-header"><i class="ti ti-news" aria-hidden="true"></i> 매체 현황</div>
+    <div class="media-grid">
+      <div class="media-col">
+        <h3><span class="dot-on" style="display:inline-block;margin-right:4px"></span> 보도 매체 (${coverCnt}개)</h3>`;
+  if (!d.coverage.length) {
+    html += `<div style="font-size:13px;color:var(--text-tertiary);padding:4px 0">미입력</div>`;
+  } else {
+    d.coverage.forEach(m => {
+      html += `<div class="media-item"><span>${m}</span><span class="dot-on"></span></div>`;
+    });
+  }
+  html += `</div><div class="media-col">
+        <h3><span class="dot-ad" style="display:inline-block;margin-right:4px"></span> 광고 집행 매체 (${adCnt}개)</h3>`;
+  if (!d.ads.length) {
+    html += `<div style="font-size:13px;color:var(--text-tertiary);padding:4px 0">미입력</div>`;
+  } else {
+    d.ads.forEach(m => {
+      html += `<div class="media-item"><span>${m}</span><span class="dot-ad"></span></div>`;
+    });
+  }
+  html += `</div></div></div></div>`;
+
+  el.innerHTML = html;
+}
+
+function openModal() {
+  const isAward = HAS_RECIPIENTS.includes(activeEvent);
+  document.getElementById('modalTitle').textContent = `${activeYear}년 ${activeEvent} — 데이터 입력`;
+  document.getElementById('modalDesc').textContent = '아래 형식을 참고해 붙여넣기 하세요. 항목은 순서대로 입력하며, 없는 항목은 비워두면 됩니다.';
+  document.getElementById('fmtHint').textContent = isAward ? FORMATS.hasRecipients : FORMATS.noRecipients;
+  document.getElementById('pasteArea').value = '';
+  document.getElementById('pasteMsg').className = 'msg';
+  document.getElementById('pasteMsg').textContent = '';
+  hintVisible = false;
+  document.getElementById('fmtHint').style.display = 'none';
+  document.getElementById('hintToggle').innerHTML = '<i class="ti ti-chevron-down" id="hintIcon" aria-hidden="true"></i> 입력 형식 보기';
+  document.getElementById('modalBg').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalBg').classList.remove('open');
+}
+
+function toggleHint() {
+  hintVisible = !hintVisible;
+  document.getElementById('fmtHint').style.display = hintVisible ? 'block' : 'none';
+  document.getElementById('hintToggle').innerHTML = hintVisible
+    ? '<i class="ti ti-chevron-up" aria-hidden="true"></i> 형식 접기'
+    : '<i class="ti ti-chevron-down" aria-hidden="true"></i> 입력 형식 보기';
+}
+
+function parseTiming(s) {
+  if (!s) return 'same';
+  const v = s.trim();
+  if (v.includes('전') || v.toLowerCase().includes('before')) return 'before';
+  if (v.includes('후') || v.includes('다음') || v.toLowerCase().includes('after')) return 'after';
+  return 'same';
+}
+
+function applyPaste() {
+  const raw = document.getElementById('pasteArea').value.trim();
+  const msgEl = document.getElementById('pasteMsg');
+  if (!raw) { msgEl.className = 'msg err'; msgEl.textContent = '내용을 입력해주세요.'; return; }
+
+  try {
+    const lines = raw.split('\n');
+    const result = EMPTY();
+    let section = null, cur = null;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) continue;
+
+      if (line.startsWith('행사일:')) { result.date = line.slice(4).trim(); continue; }
+      if (line === '[수상자]')  { if (cur && section === 'recipients') { result.recipients.push(cur); cur = null; } section = 'recipients'; continue; }
+      if (line === '[보도자료]') { if (cur && section === 'recipients') { result.recipients.push(cur); cur = null; } if (cur && section === 'releases') { result.releases.push(cur); cur = null; } section = 'releases'; continue; }
+      if (line === '[보도매체]') { if (cur && section === 'releases') { result.releases.push(cur); cur = null; } section = 'coverage'; continue; }
+      if (line === '[광고매체]') { section = 'ads'; continue; }
+
+      if (section === 'recipients') {
+        if (line.startsWith('부문:')) { if (cur) result.recipients.push(cur); cur = { category: '', name: '', org: '', reason: '' }; cur.category = line.slice(3).trim(); }
+        else if (cur && line.startsWith('이름:'))   cur.name   = line.slice(3).trim();
+        else if (cur && line.startsWith('소속:'))   cur.org    = line.slice(3).trim();
+        else if (cur && line.startsWith('수상이유:')) cur.reason = line.slice(5).trim();
+      } else if (section === 'releases') {
+        if (line.startsWith('제목:')) { if (cur) result.releases.push(cur); cur = { title: '', timing: 'same', date: '', material: '' }; cur.title = line.slice(3).trim(); }
+        else if (cur && line.startsWith('배포시점:')) cur.timing   = parseTiming(line.slice(5).trim());
+        else if (cur && line.startsWith('날짜:'))   cur.date     = line.split(':').slice(1).join(':').trim();
+        else if (cur && line.startsWith('사용자료:')) cur.material = line.slice(5).trim();
+      } else if (section === 'coverage') {
+        line.split(',').map(x => x.trim()).filter(Boolean).forEach(m => result.coverage.push(m));
+      } else if (section === 'ads') {
+        line.split(',').map(x => x.trim()).filter(Boolean).forEach(m => result.ads.push(m));
+      }
+    }
+    if (cur && section === 'recipients') result.recipients.push(cur);
+    if (cur && section === 'releases')   result.releases.push(cur);
+
+    if (!DATA[activeEvent]) DATA[activeEvent] = {};
+    DATA[activeEvent][activeYear] = result;
+
+    msgEl.className = 'msg ok';
+    msgEl.textContent = '저장되었습니다.';
+    setTimeout(() => { closeModal(); renderContent(); }, 600);
+  } catch (e) {
+    msgEl.className = 'msg err';
+    msgEl.textContent = '입력 오류: ' + e.message;
+  }
+}
+
+function setYear(y) { activeYear = y; renderYearTabs(); renderContent(); }
+function setEvent(e) { activeEvent = decodeURIComponent(e); renderEventTabs(); renderContent(); }
+
+document.getElementById('modalBg').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+renderYearTabs();
+renderEventTabs();
+renderContent();
+</script>
+</body>
+</html>
