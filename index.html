@@ -315,6 +315,43 @@
     background: var(--bg-secondary);
   }
   .timing-legend span { font-size: 11px; color: var(--text-tertiary); display: flex; align-items: center; gap: 5px; }
+  .view-toggle {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+  .vtab {
+    padding: 5px 14px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border-md);
+    background: transparent;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-family: var(--font);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.15s;
+  }
+  .vtab:hover { background: var(--bg-secondary); }
+  .vtab.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .year-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--bg-secondary);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+  }
+  .all-table-year-row td {
+    background: var(--bg-tertiary);
+    padding: 8px 16px;
+    border-bottom: 0.5px solid var(--border);
+  }
   @media (max-width: 600px) {
     .media-grid { grid-template-columns: 1fr; }
     .media-col:first-child { border-right: none; border-bottom: 0.5px solid var(--border); }
@@ -340,6 +377,7 @@
 
 <div class="main">
   <div class="event-tabs" id="eventTabs"></div>
+  <div id="viewToggleArea"></div>
   <div id="content"></div>
 </div>
 
@@ -732,6 +770,7 @@ const DATA = {
 
 let activeYear = 2022;
 let activeEvent = '아산상';
+let viewMode = 'year'; // 'year' | 'all'
 let hintVisible = false;
 
 function timingBadge(t) {
@@ -751,9 +790,65 @@ function renderEventTabs() {
   document.getElementById('eventTabs').innerHTML = EVENTS.map(e =>
     `<button class="etab${e === activeEvent ? ' active' : ''}" onclick="setEvent('${encodeURIComponent(e)}')">${e}</button>`
   ).join('');
+  const isAward = HAS_RECIPIENTS.includes(activeEvent);
+  document.getElementById('viewToggleArea').innerHTML = isAward ? `
+    <div class="view-toggle">
+      <button class="vtab${viewMode === 'year' ? ' active' : ''}" onclick="setViewMode('year')">
+        <i class="ti ti-calendar" aria-hidden="true"></i> 연도별 보기
+      </button>
+      <button class="vtab${viewMode === 'all' ? ' active' : ''}" onclick="setViewMode('all')">
+        <i class="ti ti-list" aria-hidden="true"></i> 전체 수상자
+      </button>
+    </div>` : '';
+}
+
+function renderAllRecipients() {
+  const el = document.getElementById('content');
+  const rows = [];
+  YEARS.forEach(y => {
+    const d = DATA[activeEvent]?.[y];
+    if (!d || !d.recipients || !d.recipients.length) return;
+    d.recipients.forEach(r => rows.push({ year: y, ...r }));
+  });
+
+  if (!rows.length) {
+    el.innerHTML = '<div class="empty-row">수상자 데이터가 없습니다.</div>';
+    return;
+  }
+
+  let html = `<div class="section"><div class="section-box">
+    <div class="section-header"><i class="ti ti-trophy" aria-hidden="true"></i> ${activeEvent} 전체 수상자</div>
+    <table><thead><tr>
+      <th style="width:7%">연도</th>
+      <th style="width:20%">부문</th>
+      <th style="width:14%">수상자</th>
+      <th style="width:20%">소속</th>
+      <th>수상이유</th>
+    </tr></thead><tbody>`;
+
+  let lastYear = null;
+  rows.forEach(r => {
+    if (r.year !== lastYear) {
+      html += `<tr class="all-table-year-row"><td colspan="5"><span class="year-badge">${r.year}년</span></td></tr>`;
+      lastYear = r.year;
+    }
+    html += `<tr>
+      <td style="color:var(--text-tertiary);font-size:12px">${r.year}</td>
+      <td><span class="badge badge-award">${r.category}</span></td>
+      <td><strong>${r.name}</strong></td>
+      <td>${r.org}</td>
+      <td><span class="reason">${r.reason || '-'}</span></td>
+    </tr>`;
+  });
+  html += `</tbody></table></div></div>`;
+  el.innerHTML = html;
 }
 
 function renderContent() {
+  if (viewMode === 'all' && HAS_RECIPIENTS.includes(activeEvent)) {
+    renderAllRecipients();
+    return;
+  }
   const d = DATA[activeEvent]?.[activeYear];
   const el = document.getElementById('content');
   if (!d) { el.innerHTML = '<div class="empty-row">데이터 없음</div>'; return; }
@@ -935,7 +1030,8 @@ function applyPaste() {
 }
 
 function setYear(y) { activeYear = y; renderYearTabs(); renderContent(); }
-function setEvent(e) { activeEvent = decodeURIComponent(e); renderEventTabs(); renderContent(); }
+function setEvent(e) { activeEvent = decodeURIComponent(e); viewMode = 'year'; renderEventTabs(); renderContent(); }
+function setViewMode(m) { viewMode = m; renderEventTabs(); renderContent(); }
 
 document.getElementById('modalBg').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
