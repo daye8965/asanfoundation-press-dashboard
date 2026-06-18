@@ -363,7 +363,7 @@
 </div>
 
 <script>
-const YEARS = [2026, 2025, 2024, 2023, 2022];
+const YEARS = [2018, 2017, 2016, 2015, 2014];
 const EVENTS = ['아산상', '아산의학상', '장학증서수여식', '심포지엄', '기타'];
 const HAS_RECIPIENTS = ['아산상', '아산의학상'];
 
@@ -416,78 +416,150 @@ const EMPTY = () => ({ date: '-', recipients: [], releases: [], coverage: [], ad
 
 const DATA = {
   '아산상': {
-    2026: EMPTY(),
-    2025: {
-      date: '2025-03-15',
-      recipients: [
-        { category: '사회봉사부문', name: '홍길동', org: 'OO복지재단 대표', reason: '30년간 저소득 가정 의료 지원 봉사 활동으로 지역사회 복지 향상에 헌신' },
-        { category: '의료봉사부문', name: '김영희', org: 'OO병원 원장', reason: '무의촌 순회진료 및 의료 취약계층 무료 수술 2,000여 건 시행' },
-      ],
+    2018: {
+      date: '-', recipients: [],
       releases: [
-        { title: '아산상 수상자 발표 보도자료', timing: 'before', date: '2025-03-10', material: '보도자료+사진' },
-        { title: '아산상 시상식 현장 보도자료', timing: 'same', date: '2025-03-15', material: '보도자료+영상' },
+        { title: '제31회 아산상 보도결과', timing: 'same', date: '-', material: '보도자료+사진' },
       ],
-      coverage: ['조선일보', '동아일보', '중앙일보', '한겨레', 'KBS', 'MBC', '연합뉴스'],
-      ads: ['조선일보', '동아일보', '중앙일보'],
+      coverage: [], ads: [],
     },
-    2024: {
-      date: '2024-03-20',
-      recipients: [
-        { category: '사회봉사부문', name: '이철수', org: 'OO사회복지관 관장', reason: '노인 고독사 예방 프로그램 전국 확산에 기여' },
-      ],
+    2017: {
+      date: '-', recipients: [],
       releases: [
-        { title: '아산상 수상자 발표 보도자료', timing: 'before', date: '2024-03-14', material: '보도자료' },
-        { title: '아산상 시상식 보도자료', timing: 'after', date: '2024-03-21', material: '보도자료+사진' },
+        { title: '제29회 아산상 시상식 보도결과', timing: 'same', date: '-', material: '보도자료+사진' },
       ],
-      coverage: ['조선일보', '중앙일보', '한국경제', '연합뉴스', 'YTN'],
-      ads: ['조선일보', '중앙일보'],
+      coverage: [], ads: [],
     },
-    2023: EMPTY(), 2022: EMPTY(),
+    2016: {
+      date: '2016-11-28', recipients: [],
+      releases: [
+        { title: '제28회 아산상 시상식 보도결과', timing: 'after', date: '2016-11-28', material: '보도자료+사진' },
+      ],
+      coverage: [], ads: [],
+    },
+    2015: {
+      date: '-', recipients: [],
+      releases: [
+        { title: '제27회 아산상 수상자 발표', timing: 'before', date: '2015-11-18', material: '보도자료' },
+        { title: '제27회 아산상 시상식 보도결과', timing: 'after', date: '2015-11-26', material: '보도자료+사진' },
+      ],
+      coverage: [], ads: [],
+    },
+    2014: {
+      date: '-', recipients: [],
+      releases: [
+        { title: '제26회 아산상 수상자 발표 지면기사', timing: 'before', date: '-', material: '보도자료' },
+        { title: '제26회 아산상 시상식 개최 지면기사', timing: 'after', date: '-', material: '보도자료+사진' },
+      ],
+      coverage: [], ads: [],
+    },
   },
   '아산의학상': {
-    2026: EMPTY(),
-    2025: {
-      date: '2025-02-20',
-      recipients: [
-        { category: '기초의학부문', name: '정수민', org: '서울대 의대 교수', reason: '암 줄기세포 분화 억제 기전 규명으로 신규 표적 치료 가능성 제시' },
-        { category: '임상의학부문', name: '최재원', org: '연세대 세브란스 교수', reason: '소아 심장이식 수술 성공률 향상 프로토콜 개발 및 국제 표준화 주도' },
-      ],
+    2018: {
+      date: '2018-03-22', recipients: [],
       releases: [
-        { title: '아산의학상 수상자 발표', timing: 'before', date: '2025-02-12', material: '보도자료' },
-        { title: '아산의학상 시상식 보도자료', timing: 'same', date: '2025-02-20', material: '보도자료+사진+영상' },
+        { title: '제11회 아산의학상 수상자 선정', timing: 'before', date: '2018-01-11', material: '보도자료' },
+        { title: '제11회 아산의학상 시상식 개최', timing: 'same', date: '2018-03-22', material: '보도자료+사진' },
       ],
-      coverage: ['조선일보', '동아일보', '의사신문', '청년의사', '메디컬타임즈', '연합뉴스'],
-      ads: ['의사신문', '청년의사', '메디컬타임즈'],
+      coverage: [], ads: [],
     },
-    2024: EMPTY(), 2023: EMPTY(), 2022: EMPTY(),
+    2017: {
+      date: '2017-03-22', recipients: [],
+      releases: [
+        { title: '제10회 아산의학상 지면기사', timing: 'same', date: '2017-03-22', material: '보도자료+사진' },
+      ],
+      coverage: [], ads: [],
+    },
+    2016: {
+      date: '-', recipients: [],
+      releases: [
+        { title: '제9회 아산의학상 수상자 발표 (석간)', timing: 'before', date: '2016-03-17', material: '보도자료' },
+        { title: '제9회 아산의학상 수상자 발표 (조간)', timing: 'before', date: '2016-03-24', material: '보도자료' },
+        { title: '제9회 아산의학상 시상식 개최 지면기사', timing: 'after', date: '-', material: '보도자료+사진' },
+        { title: '제9회 아산의학상 인터뷰기사 (로메로)', timing: 'after', date: '-', material: '인터뷰' },
+      ],
+      coverage: [], ads: [],
+    },
+    2015: {
+      date: '2015-03-20', recipients: [],
+      releases: [
+        { title: '제8회 아산의학상 수상자 발표', timing: 'before', date: '2015-03-10', material: '보도자료' },
+        { title: '제8회 아산의학상 시상식 개최', timing: 'same', date: '2015-03-20', material: '보도자료+사진' },
+      ],
+      coverage: [], ads: [],
+    },
+    2014: EMPTY(),
   },
   '장학증서수여식': {
-    2026: EMPTY(),
-    2025: {
-      date: '2025-05-08', recipients: [],
-      releases: [{ title: '2025년 장학증서수여식 보도자료', timing: 'same', date: '2025-05-08', material: '보도자료+사진' }],
-      coverage: ['연합뉴스', '뉴시스', '교육부 뉴스레터'], ads: [],
+    2018: {
+      date: '2018-02-28', recipients: [],
+      releases: [
+        { title: '아산재단 장학증서 수여식 홍보결과', timing: 'same', date: '2018-02-28', material: '보도자료+사진' },
+      ],
+      coverage: [], ads: [],
     },
-    2024: EMPTY(), 2023: EMPTY(), 2022: EMPTY(),
+    2017: {
+      date: '2017-02-24', recipients: [],
+      releases: [
+        { title: '아산재단 장학증서 수여식 보도 지면기사', timing: 'same', date: '2017-02-24', material: '보도자료+사진' },
+      ],
+      coverage: [], ads: [],
+    },
+    2016: {
+      date: '2016-02-29', recipients: [],
+      releases: [
+        { title: '아산재단 장학증서 수여식 보도 지면기사', timing: 'same', date: '2016-02-29', material: '보도자료+사진' },
+      ],
+      coverage: [], ads: [],
+    },
+    2015: {
+      date: '2015-02-27', recipients: [],
+      releases: [
+        { title: '아산재단 장학증서 수여식 보도 지면기사', timing: 'same', date: '2015-02-27', material: '보도자료+사진' },
+      ],
+      coverage: [], ads: [],
+    },
+    2014: EMPTY(),
   },
   '심포지엄': {
-    2026: EMPTY(),
-    2025: {
-      date: '2025-10-22', recipients: [],
+    2018: {
+      date: '-', recipients: [],
       releases: [
-        { title: '2025 아산 심포지엄 사전 보도자료', timing: 'before', date: '2025-10-16', material: '보도자료' },
-        { title: '2025 아산 심포지엄 결과 보도자료', timing: 'after', date: '2025-10-23', material: '보도자료+사진' },
+        { title: '41주년 기념 아산재단 심포지엄 지면기사', timing: 'same', date: '-', material: '보도자료+사진' },
       ],
-      coverage: ['매일경제', '한국경제', '조선일보', '연합뉴스'], ads: ['매일경제', '한국경제'],
+      coverage: ['경향신문', '뉴스1', '뉴시스', '동아일보', '매일경제', '문화일보', '서울경제', '연합뉴스', '이데일리', '조선일보', '중앙일보', '파이낸셜뉴스', '한국경제'],
+      ads: [],
     },
-    2024: EMPTY(), 2023: EMPTY(), 2022: EMPTY(),
+    2017: {
+      date: '2017-06-28', recipients: [],
+      releases: [
+        { title: '창립40주년 기념 아산재단 심포지엄', timing: 'same', date: '2017-06-28', material: '보도자료+사진' },
+      ],
+      coverage: [], ads: [],
+    },
+    2016: {
+      date: '2016-06-24', recipients: [],
+      releases: [
+        { title: '창립39주년 기념심포지엄 홍보결과', timing: 'after', date: '2016-06-24', material: '보도자료' },
+        { title: '창립39주년 기념심포지엄 인터뷰 (문화일보)', timing: 'after', date: '-', material: '인터뷰' },
+      ],
+      coverage: [], ads: [],
+    },
+    2015: {
+      date: '-', recipients: [],
+      releases: [
+        { title: '아산탄생 백주년 기념 심포지엄 지면기사', timing: 'after', date: '-', material: '보도자료+사진' },
+      ],
+      coverage: [], ads: [],
+    },
+    2014: EMPTY(),
   },
   '기타': {
-    2026: EMPTY(), 2025: EMPTY(), 2024: EMPTY(), 2023: EMPTY(), 2022: EMPTY(),
+    2018: EMPTY(), 2017: EMPTY(), 2016: EMPTY(), 2015: EMPTY(), 2014: EMPTY(),
   }
 };
 
-let activeYear = 2025;
+let activeYear = 2018;
 let activeEvent = '아산상';
 let hintVisible = false;
 
